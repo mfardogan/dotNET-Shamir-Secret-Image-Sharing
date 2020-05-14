@@ -18,12 +18,12 @@ namespace MfArdogan.SecretSharing.Kernel
 
         public int Decrypt(IEnumerable<(int x, int y)> encrypted)
         {
-            var dictionary = new Dictionary<BigInteger, BigInteger>();
+            var dictionary = new Dictionary<int, int>();
             foreach (var item in encrypted)
             {
                 dictionary.Add(item.x, item.y);
             }
-            return (int)DeShamir(dictionary, 251);
+            return (int)Lagrance(dictionary, 251);
         }
 
         public override Bitmap Decrypt()

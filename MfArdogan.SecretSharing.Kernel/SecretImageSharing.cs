@@ -17,7 +17,7 @@ namespace MfArdogan.SecretSharing.Kernel
         {
             var inputArrayAsMatrix = Image.ToGrayScaleMatrix();
             var sharing = Sharing<Bitmap>.CreateSharingDictionary(
-                Enumerable.Range(1, N).Select(
+                Enumerable.Range(1, NValue).Select(
                              x => new Bitmap(Image.Width, Image.Height)
                         ));
 
@@ -27,9 +27,9 @@ namespace MfArdogan.SecretSharing.Kernel
                 {
                     var secret = inputArrayAsMatrix[x, y];
 
-                    IEnumerable<(int number, int value)> injector = ShamirsAlgorithm(secret)
+                    IEnumerable<(int number, int value)> injector = ShamirsAlgorithm(secret,251)
                          .Select(next =>
-                               (number: (int)next.Key, value: (int)next.Value)
+                               (number: next.Key, value: next.Value)
                          );
 
                     foreach (var (number, value) in injector)

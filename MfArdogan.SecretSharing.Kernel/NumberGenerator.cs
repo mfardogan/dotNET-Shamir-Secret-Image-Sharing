@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace MfArdogan.SecretSharing.Kernel
 {
@@ -6,8 +7,11 @@ namespace MfArdogan.SecretSharing.Kernel
     {
         public override int Generate(int lenght)
         {
-            var random = new Random();
-            return random.Next();
+            Random random = new Random();
+            random.Next();
+            byte[] data = new byte[lenght];
+            random.NextBytes(data);
+            return (int)new BigInteger(data);
         }
     }
 }
