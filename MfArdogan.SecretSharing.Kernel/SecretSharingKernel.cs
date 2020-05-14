@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace MfArdogan.SecretSharing.Kernel
 {
@@ -15,43 +16,61 @@ namespace MfArdogan.SecretSharing.Kernel
 
         public int N { get; }
         public int K { get; }
-        public IKeyEncrypter KeyEncrypter { get; set; } 
+        public IKeyEncrypter KeyEncrypter { get; set; }
         internal RandomNumberGenerator Random { get; set; } = new NumberGenerator();
 
         public abstract Sharing<T> Share();
 
-        protected virtual Dictionary<int, int> Encrypt(int secret, int mod)
+
+        public static BigInteger MathMod(BigInteger a, BigInteger b)
         {
-            var dictionary = new Dictionary<int, int>();
+            return (BigInteger.Abs(a * b) + a) % b;
+        }
 
-            Func<int, int, int> modul = (a, b) => (Math.Abs(a * b) + a) % b;
+        public BigInteger getRandom(int length)
+        {
+            Random random = new Random();
+            random.Next();
+            byte[] data = new byte[length];
+            random.NextBytes(data);
+            return new BigInteger(data);
+        }
+        const int p = 251;
 
-            var xs = Enumerable.Range(0, K)
-                .Select(i => modul(Math.Abs(Random.Generate((i + 1) * 2)), mod))
-                .ToArray();
+        protected Dictionary<BigInteger, BigInteger> ShamirsAlgorithm(BigInteger secret)
+        {
+            BigInteger[] Koeff = new BigInteger[K - 1];
+            BigInteger[] rand_x = new BigInteger[N];
 
-            var vs = Enumerable.Range(0, N)
-                .Select(i => modul((i + 1), mod))
-                .ToArray();
+            Dictionary<BigInteger, BigInteger> total_keys = new Dictionary<BigInteger, BigInteger>();
 
-            int x = 0, p;
-            for (var i = 0; i < N; i++)
+            for (int i = 0; i < K - 1; i++)
+                Koeff[i] = MathMod(BigInteger.Abs(getRandom((i + 1) * 2)), p);
+
+            for (int i = 0; i < N; i++)
+                rand_x[i] = MathMod((i + 1), p);
+
+            BigInteger result = new BigInteger();
+            BigInteger powered = new BigInteger();
+
+            for (int i = 0; i < N; i++)
             {
-                x = x + secret;
+                result = result + secret;
 
                 for (int j = 1; j < K; j++)
                 {
-                    p = (int)Math.Pow(vs[i], K - j);
-                    x += xs[j - 1] * p;
+                    powered = BigInteger.Pow(rand_x[i], K - j);
+                    result += Koeff[j - 1] * powered;
                 }
 
-                x = modul(x, mod);
+                result = MathMod(result, p);
 
-                dictionary.Add(vs[i], x);
+                if (!total_keys.ContainsKey(rand_x[i]))
+                    total_keys.Add(rand_x[i], result);
 
-                x = 0;
+                result = 0;
             }
-            return dictionary;
+            return total_keys;
         }
     }
 }

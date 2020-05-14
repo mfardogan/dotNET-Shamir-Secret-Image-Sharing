@@ -23,7 +23,7 @@ namespace MfArdogan.SecretSharing.Kernel
             {
                 dictionary.Add(item.x, item.y);
             }
-            return (int)DeShamir(dictionary, 255);
+            return (int)DeShamir(dictionary, 251);
         }
 
         public override Bitmap Decrypt()
@@ -32,30 +32,28 @@ namespace MfArdogan.SecretSharing.Kernel
             var width = start.value.Width;
             var height = start.value.Height;
 
-            var result = new Bitmap(width, height);
+            var matrix = new int[width, height];
 
             List<KeyValuePair<int, int[,]>> matirces = Sharing.Select(
-               x => new KeyValuePair<int, int[,]>(x.number, x.value.ToGrayScaleImage()
-                    .ToMultiDiemensionalArray())
+                x => new KeyValuePair<int, int[,]>
+                        (x.number, x.value.ToGrayScaleMatrix())
                 ).ToList();
 
+            var vss = new List<(int x, int y)>();
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    var vss = new List<(int x, int y)>();
-                    foreach (var item in matirces)
-                    {
-                        vss.Add((item.Key, item.Value[x, y]));
-                    }
+                    vss.Clear();
+                    vss.AddRange(matirces.Select(t => (x: t.Key, y: t.Value[x, y])));
 
                     var detect = KeyEncrypter == default ? Decrypt(vss) :
                         KeyEncrypter.Decrypt(Decrypt(vss));
-                    result.SetPixel(x, y, Color.FromArgb(detect, detect, detect));
+                    matrix[x, y] = detect;
                 }
             }
 
-            return result;
+            return matrix.AsGrayScaleBitmap();
         }
     }
 }

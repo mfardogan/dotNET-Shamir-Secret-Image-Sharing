@@ -4,37 +4,39 @@ namespace MfArdogan.SecretSharing.Kernel
 {
     internal static class Matrix
     {
-        public static Bitmap ToGrayScaleImage(this Bitmap bitmap)
+        public static int[,] ToGrayScaleMatrix(this Bitmap bitmap)
         {
-            int x = 0, y = 0;
-            int width = bitmap.Width, height = bitmap.Height;
-            var image = new Bitmap(bitmap.Width, bitmap.Height);
-            for (; x < width; x++)
+            var width = bitmap.Width;
+            var height = bitmap.Height;
+            var matrix = new int[width, height];
+
+            for (int i = 0; i < width; i++)
             {
-                for (; y < height; y++)
+                for (int j = 0; j < height; j++)
                 {
-                    var next = bitmap.GetPixel(x, y);
-                    var avg = (next.R + next.G + next.B) / 3;
-                    image.SetPixel(x, y, Color.FromArgb(255, avg, avg, avg));
+                    var p = bitmap.GetPixel(i, j);
+                    matrix[i, j] = (p.R + p.G + p.B) / 3;
+                }
+            }
+            return matrix;
+        }
+       
+
+        public static Bitmap AsGrayScaleBitmap(this int[,] vs)
+        {
+            var width = vs.GetLength(0);
+            var height = vs.GetLength(1);
+            var image = new Bitmap(width, height);
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    var gray = vs[i, j];
+                    image.SetPixel(i, j, Color.FromArgb(gray, gray, gray));
                 }
             }
             return image;
-        }
-        public static int[,] ToMultiDiemensionalArray(this Bitmap bitmap)
-        {
-            int x = 0, y = 0;
-            int width = bitmap.Width, height = bitmap.Height;
-
-            var array = new int[width, height];
-            for (; x < width; x++)
-            {
-                for (; y < height; y++)
-                {
-                    var next = bitmap.GetPixel(x, y);
-                    array[x, y] = next.R;
-                }
-            }
-            return array;
         }
     }
 }
