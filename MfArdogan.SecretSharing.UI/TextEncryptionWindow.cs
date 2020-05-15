@@ -1,4 +1,5 @@
 ﻿using MfArdogan.SecretSharing.Kernel;
+using MfArdogan.SecretSharing.Kernel.Factories;
 using System;
 using System.Data;
 using System.IO;
@@ -13,11 +14,11 @@ namespace MfArdogan.SecretSharing.UI
         public TextEncryptionWindow()
         {
             InitializeComponent();
-            Factory = new SecretSharingFactoryDirector<byte[]>(
+            Factory = new FactoryDirector<byte[]>(
                   new BufferSharingAbstractFactory()
              );
         }
-        public SecretSharingFactoryDirector<byte[]> Factory { get; set; }
+        public FactoryDirector<byte[]> Factory { get; set; }
 
         private Sharing<byte[]> sharingObjects;
         public Sharing<byte[]> SharingObjects

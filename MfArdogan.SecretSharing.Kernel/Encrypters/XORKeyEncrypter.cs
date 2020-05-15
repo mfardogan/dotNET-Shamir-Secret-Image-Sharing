@@ -1,4 +1,4 @@
-﻿namespace MfArdogan.SecretSharing.Kernel
+﻿namespace MfArdogan.SecretSharing.Kernel.Encrypters
 {
     public class XorKeyEncrypter : IKeyEncrypter
     {

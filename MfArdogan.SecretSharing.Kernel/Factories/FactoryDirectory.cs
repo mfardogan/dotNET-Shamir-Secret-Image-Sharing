@@ -1,9 +1,9 @@
-﻿namespace MfArdogan.SecretSharing.Kernel
+﻿namespace MfArdogan.SecretSharing.Kernel.Factories
 {
-    public class SecretSharingFactoryDirector<T>
+    public class FactoryDirector<T>
     {
         private readonly AbstractFactory<T> factory;
-        public SecretSharingFactoryDirector(AbstractFactory<T> secretSharingAbstractFactory)
+        public FactoryDirector(AbstractFactory<T> secretSharingAbstractFactory)
         {
             factory = secretSharingAbstractFactory;
         }

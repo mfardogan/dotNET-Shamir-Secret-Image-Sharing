@@ -1,4 +1,4 @@
-﻿namespace MfArdogan.SecretSharing.Kernel
+﻿namespace MfArdogan.SecretSharing.Kernel.Factories
 {
     public class BufferSharingAbstractFactory : AbstractFactory<byte[]>
     {

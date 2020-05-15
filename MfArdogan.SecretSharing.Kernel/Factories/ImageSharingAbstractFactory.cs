@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MfArdogan.SecretSharing.Kernel
+namespace MfArdogan.SecretSharing.Kernel.Factories
 {
     public class ImageSharingAbstractFactory : AbstractFactory<Bitmap>
     {

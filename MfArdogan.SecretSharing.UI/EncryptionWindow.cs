@@ -1,4 +1,5 @@
 ﻿using MfArdogan.SecretSharing.Kernel;
+using MfArdogan.SecretSharing.Kernel.Factories;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -14,12 +15,12 @@ namespace MfArdogan.SecretSharing.UI
             InitializeComponent();
             Image = (Bitmap)System.Drawing.Image.FromFile("lena.bmp");
 
-            Factory = new SecretSharingFactoryDirector<Bitmap>(
-                new ImageSharingAbstractFactory()
+            Factory = new FactoryDirector<Bitmap>(
+                 new ImageSharingAbstractFactory()
                 );
         }
 
-        public SecretSharingFactoryDirector<Bitmap> Factory { get; set; }
+        public FactoryDirector<Bitmap> Factory { get; set; }
 
         private Sharing<Bitmap> sharingObjects;
         public Sharing<Bitmap> SharingObjects
