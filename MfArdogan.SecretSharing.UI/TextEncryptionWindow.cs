@@ -1,13 +1,9 @@
 ﻿using MfArdogan.SecretSharing.Kernel;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MfArdogan.SecretSharing.UI
@@ -17,7 +13,11 @@ namespace MfArdogan.SecretSharing.UI
         public TextEncryptionWindow()
         {
             InitializeComponent();
+            Factory = new SecretSharingFactoryDirector<byte[]>(
+                  new BufferSharingAbstractFactory()
+             );
         }
+        public SecretSharingFactoryDirector<byte[]> Factory { get; set; }
 
         private Sharing<byte[]> sharingObjects;
         public Sharing<byte[]> SharingObjects
@@ -71,8 +71,8 @@ namespace MfArdogan.SecretSharing.UI
 
             SecretText = richTextBox1.Text;
             var buffer = Encoding.UTF8.GetBytes(SecretText);
-            var secret = new SecretBufferSharing(buffer, (int)numN.Value, (int)numK.Value);
-            SharingObjects = secret.Share();
+            var decrypter = Factory.GetEncrypter(buffer, (int)numN.Value, (int)numK.Value, null);
+            SharingObjects = decrypter.Share();
         }
 
         void btnExport_Click(object sender, EventArgs e)
@@ -98,6 +98,11 @@ namespace MfArdogan.SecretSharing.UI
                 var path = Path.Combine(browser.SelectedPath, $"{item.Share}.txt");
                 File.WriteAllText(path, item.Value);
             }
+        }
+
+        void btnExpose_Click(object sender, EventArgs e)
+        {
+            new TextDecryptionWindow().Show();
         }
     }
 }

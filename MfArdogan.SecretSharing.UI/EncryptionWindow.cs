@@ -13,7 +13,13 @@ namespace MfArdogan.SecretSharing.UI
         {
             InitializeComponent();
             Image = (Bitmap)System.Drawing.Image.FromFile("lena.bmp");
+
+            Factory = new SecretSharingFactoryDirector<Bitmap>(
+                new ImageSharingAbstractFactory()
+                );
         }
+
+        public SecretSharingFactoryDirector<Bitmap> Factory { get; set; }
 
         private Sharing<Bitmap> sharingObjects;
         public Sharing<Bitmap> SharingObjects
@@ -64,8 +70,11 @@ namespace MfArdogan.SecretSharing.UI
             }
 
             int n = (int)numN.Value, k = (int)numK.Value;
-            var secret = new SecretImageSharing(Image, n, k);
-            SharingObjects = secret.Share();
+
+            SecretSharing<Bitmap> sharing = Factory.GetEncrypter(
+                 Image, n, k, null
+                );
+            SharingObjects = sharing.Share();
         }
 
         void btnExport_Click(object sender, EventArgs e)

@@ -9,6 +9,18 @@ namespace MfArdogan.SecretSharing.UI
 {
     public partial class DecryptionWindow : Form
     {
+        public DecryptionWindow()
+        {
+            InitializeComponent();
+
+            Factory = new SecretSharingFactoryDirector<Bitmap>(
+                new ImageSharingAbstractFactory()
+                );
+        }
+
+        public SecretSharingFactoryDirector<Bitmap> Factory { get; set; }
+
+        #region Properties
         private Bitmap image;
         public Bitmap Image
         {
@@ -39,12 +51,8 @@ namespace MfArdogan.SecretSharing.UI
                     flowSharingObjects.Controls.Add(shareitem);
                 }
             }
-        }
-
-        public DecryptionWindow()
-        {
-            InitializeComponent();
-        }
+        } 
+        #endregion
 
         void btnShare_Click(object sender, EventArgs e)
         {
@@ -53,8 +61,11 @@ namespace MfArdogan.SecretSharing.UI
                 return;
             }
 
-            var detect = new SecretImageSharingDecrypter(SharingObjects);
-            Image = detect.Decrypt();
+            DecrypterKernel<Bitmap> decrypter = Factory.GetDecrypter(
+                   SharingObjects, null
+                );
+
+            Image = decrypter.Decrypt();
         }
 
         private void btnSelectImage_Click(object sender, EventArgs e)
@@ -81,12 +92,12 @@ namespace MfArdogan.SecretSharing.UI
 
         void btnExport_Click(object sender, EventArgs e)
         {
-            if (Image == default )
+            if (Image == default)
             {
                 return;
             }
 
-            var dialog = new SaveFileDialog() { Filter = "Resim | *.png;*.jpg;*.png;*.bmp" , FileName = "resim.png"};
+            var dialog = new SaveFileDialog() { Filter = "Resim | *.png;*.jpg;*.png;*.bmp", FileName = "resim.png" };
             if (dialog.ShowDialog() != DialogResult.OK)
             {
                 return;

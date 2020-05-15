@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 
 namespace MfArdogan.SecretSharing.Kernel
 {
@@ -15,15 +14,14 @@ namespace MfArdogan.SecretSharing.Kernel
         {
         }
 
-
-        public int Decrypt(IEnumerable<(int x, int y)> encrypted)
+        private int Decrypt(IEnumerable<(int x, int y)> encrypted)
         {
             var dictionary = new Dictionary<int, int>();
             foreach (var item in encrypted)
             {
                 dictionary.Add(item.x, item.y);
             }
-            return (int)Lagrance(dictionary, 251);
+            return Lagrance(dictionary, 251);
         }
 
         public override Bitmap Decrypt()

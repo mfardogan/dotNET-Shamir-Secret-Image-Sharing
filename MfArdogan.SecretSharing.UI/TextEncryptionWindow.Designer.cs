@@ -95,9 +95,8 @@ namespace MfArdogan.SecretSharing.UI
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(3, 16);
             this.dataGridView1.Name = "dataGridView1";
@@ -113,6 +112,7 @@ namespace MfArdogan.SecretSharing.UI
             this.btnExpose.TabIndex = 9;
             this.btnExpose.Text = "Expose";
             this.btnExpose.UseVisualStyleBackColor = true;
+            this.btnExpose.Click += new System.EventHandler(this.btnExpose_Click);
             // 
             // btnExport
             // 
