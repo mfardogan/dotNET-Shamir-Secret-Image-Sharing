@@ -10,7 +10,7 @@ namespace MfArdogan.SecretSharing.Kernel
         {
         }
 
-        public SecretImageSharingDecrypter(IKeyEncrypter keyEncrypter, Sharing<Bitmap> sharing) : base(keyEncrypter, sharing)
+        public SecretImageSharingDecrypter(Sharing<Bitmap> sharing, IKeyEncrypter keyEncrypter) : base(keyEncrypter, sharing)
         {
         }
 
@@ -51,7 +51,7 @@ namespace MfArdogan.SecretSharing.Kernel
                 }
             }
 
-            return matrix.AsGrayScaleBitmap();
+            return matrix.ToGrayScaleBitmap();
         }
     }
 }

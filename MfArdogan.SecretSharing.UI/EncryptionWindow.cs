@@ -1,4 +1,5 @@
 ﻿using MfArdogan.SecretSharing.Kernel;
+using MfArdogan.SecretSharing.Kernel.Encrypters;
 using MfArdogan.SecretSharing.Kernel.Factories;
 using System;
 using System.Drawing;
@@ -15,12 +16,12 @@ namespace MfArdogan.SecretSharing.UI
             InitializeComponent();
             Image = (Bitmap)System.Drawing.Image.FromFile("lena.bmp");
 
-            Factory = new FactoryDirector<Bitmap>(
+            FactoryObject = new FactoryDirector<Bitmap>(
                  new ImageSharingAbstractFactory()
                 );
         }
 
-        public FactoryDirector<Bitmap> Factory { get; set; }
+        public FactoryDirector<Bitmap> FactoryObject { get; set; }
 
         private Sharing<Bitmap> sharingObjects;
         public Sharing<Bitmap> SharingObjects
@@ -70,10 +71,11 @@ namespace MfArdogan.SecretSharing.UI
                 return;
             }
 
-            int n = (int)numN.Value, k = (int)numK.Value;
-
-            SecretSharing<Bitmap> sharing = Factory.GetEncrypter(
-                 Image, n, k, null
+            SecretSharing<Bitmap> sharing = FactoryObject.GetEncrypter(
+                 Image,
+                     (int)numN.Value,
+                         (int)numK.Value,
+                              new BasicRSAKeyEncrypter()
                 );
             SharingObjects = sharing.Share();
         }

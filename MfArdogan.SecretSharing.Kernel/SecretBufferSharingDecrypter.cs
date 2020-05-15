@@ -9,7 +9,7 @@ namespace MfArdogan.SecretSharing.Kernel
         {
         }
 
-        public SecretBufferSharingDecrypter(IKeyEncrypter keyEncrypter, Sharing<byte[]> sharing) : base(keyEncrypter, sharing)
+        public SecretBufferSharingDecrypter(Sharing<byte[]> sharing, IKeyEncrypter keyEncrypter) : base(keyEncrypter, sharing)
         {
         }
 

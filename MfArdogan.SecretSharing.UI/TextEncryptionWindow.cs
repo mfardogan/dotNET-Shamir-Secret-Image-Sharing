@@ -1,4 +1,5 @@
 ﻿using MfArdogan.SecretSharing.Kernel;
+using MfArdogan.SecretSharing.Kernel.Encrypters;
 using MfArdogan.SecretSharing.Kernel.Factories;
 using System;
 using System.Data;
@@ -14,11 +15,11 @@ namespace MfArdogan.SecretSharing.UI
         public TextEncryptionWindow()
         {
             InitializeComponent();
-            Factory = new FactoryDirector<byte[]>(
+            FactoryObject = new FactoryDirector<byte[]>(
                   new BufferSharingAbstractFactory()
              );
         }
-        public FactoryDirector<byte[]> Factory { get; set; }
+        public FactoryDirector<byte[]> FactoryObject { get; set; }
 
         private Sharing<byte[]> sharingObjects;
         public Sharing<byte[]> SharingObjects
@@ -71,9 +72,14 @@ namespace MfArdogan.SecretSharing.UI
             }
 
             SecretText = richTextBox1.Text;
-            var buffer = Encoding.UTF8.GetBytes(SecretText);
-            var decrypter = Factory.GetEncrypter(buffer, (int)numN.Value, (int)numK.Value, null);
-            SharingObjects = decrypter.Share();
+
+            SecretSharing<byte[]> encrypter = FactoryObject.GetEncrypter(
+                     Encoding.UTF8.GetBytes(SecretText),
+                            (int)numN.Value,
+                                    (int)numK.Value,
+                                            new XorKeyEncrypter()
+                );
+            SharingObjects = encrypter.Share();
         }
 
         void btnExport_Click(object sender, EventArgs e)

@@ -4,6 +4,11 @@ namespace MfArdogan.SecretSharing.Kernel
 {
     internal static class Matrix
     {
+        /// <summary>
+        /// Convert a bitmap to array as gray scale.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
         public static int[,] ToGrayScaleMatrix(this Bitmap bitmap)
         {
             var width = bitmap.Width;
@@ -21,8 +26,12 @@ namespace MfArdogan.SecretSharing.Kernel
             return matrix;
         }
        
-
-        public static Bitmap AsGrayScaleBitmap(this int[,] vs)
+        /// <summary>
+        /// Convert an array to Bitmap as gray scale.
+        /// </summary>
+        /// <param name="vs"></param>
+        /// <returns></returns>
+        public static Bitmap ToGrayScaleBitmap(this int[,] vs)
         {
             var width = vs.GetLength(0);
             var height = vs.GetLength(1);

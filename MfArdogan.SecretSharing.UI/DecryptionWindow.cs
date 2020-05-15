@@ -1,4 +1,5 @@
 ﻿using MfArdogan.SecretSharing.Kernel;
+using MfArdogan.SecretSharing.Kernel.Encrypters;
 using MfArdogan.SecretSharing.Kernel.Factories;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,12 @@ namespace MfArdogan.SecretSharing.UI
         {
             InitializeComponent();
 
-            Factory = new FactoryDirector<Bitmap>(
+            FactoryObject = new FactoryDirector<Bitmap>(
                 new ImageSharingAbstractFactory()
                 );
         }
 
-        public FactoryDirector<Bitmap> Factory { get; set; }
+        public FactoryDirector<Bitmap> FactoryObject { get; set; }
 
         #region Properties
         private Bitmap image;
@@ -52,7 +53,7 @@ namespace MfArdogan.SecretSharing.UI
                     flowSharingObjects.Controls.Add(shareitem);
                 }
             }
-        } 
+        }
         #endregion
 
         void btnShare_Click(object sender, EventArgs e)
@@ -62,8 +63,9 @@ namespace MfArdogan.SecretSharing.UI
                 return;
             }
 
-            DecrypterKernel<Bitmap> decrypter = Factory.GetDecrypter(
-                   SharingObjects, null
+            DecrypterKernel<Bitmap> decrypter = FactoryObject.GetDecrypter(
+                   SharingObjects, 
+                         new BasicRSAKeyEncrypter()
                 );
 
             Image = decrypter.Decrypt();

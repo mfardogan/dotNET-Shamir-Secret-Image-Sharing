@@ -17,9 +17,13 @@ namespace MfArdogan.SecretSharing.Kernel
         public IKeyEncrypter KeyEncrypter { get; set; }
         public Sharing<T> Sharing { get; set; }
 
+        /// <summary>
+        /// Decrypt secret data with K part as T data type.
+        /// </summary>
+        /// <returns></returns>
         public abstract T Decrypt();
 
-        public int Lagrance(Dictionary<int, int> keyValuePairs, int mod)
+        protected int Lagrance(Dictionary<int, int> keyValuePairs, int mod)
         {
             Func<int, int, int> abs = (a, b) => (Math.Abs(a * b) + a) % b;
 

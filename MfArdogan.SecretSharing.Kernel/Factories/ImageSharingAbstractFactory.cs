@@ -6,7 +6,7 @@ namespace MfArdogan.SecretSharing.Kernel.Factories
     {
         public override DecrypterKernel<Bitmap> GetDecrypter(Sharing<Bitmap> shares, IKeyEncrypter key)
         {
-            return new SecretImageSharingDecrypter(key, shares);
+            return new SecretImageSharingDecrypter(shares, key);
         }
 
         public override SecretSharing<Bitmap> GetEncrypter(Bitmap data, int n, int k, IKeyEncrypter key)
