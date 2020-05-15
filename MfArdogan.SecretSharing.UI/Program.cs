@@ -13,7 +13,7 @@ namespace MfArdogan.SecretSharing.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TextEncryptionWindow());
+            Application.Run(new EncryptionWindow());
         }
     }
 }

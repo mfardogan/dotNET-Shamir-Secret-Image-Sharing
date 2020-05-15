@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MfArdogan.SecretSharing.UI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Secret Image Shating Test Application")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("M.Furkan ARDOĞAN")]
 [assembly: AssemblyProduct("MfArdogan.SecretSharing.UI")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
